@@ -15,14 +15,14 @@ function startTime() {
 
     //displays the months and days by name.
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; //Abbreviated the days, so when the current day hits, it shortens it down
     //provides the current day, month, and year.
     var curWeekDay = days[today.getDay()];
-    var curDay = today.getDate();
-    var curMonth = months[today.getMonth()];
-    var curYear = today.getFullYear();
-    var date = curWeekDay+", "+curMonth+" "+curDay+" "+curYear;
-    document.getElementById("date").innerHTML = date;
+    var curDay = today.getDate(); // retrieves what day it is
+    var curMonth = months[today.getMonth()]; // retrieves the month it is
+    var curYear = today.getFullYear(); // retrieves the year it is
+    var date = curWeekDay+", "+curMonth+" "+curDay+" "+curYear; // Formats which way the Day, Month, Date, and year shows up.
+    document.getElementById("date").innerHTML = date; //index uses this to pull the date to the main page
     
     var time = setTimeout(function(){ startTime() }, 500);
 }
