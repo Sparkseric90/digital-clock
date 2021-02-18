@@ -1,36 +1,68 @@
-function startTime() {
-    //pulls the current time and converts it to standard am:pm time
-    var today = new Date(); //creates time stamps
-    var hr = today.getHours(); //retrieves hours from the time stamp
-    var min = today.getMinutes(); //retrieves minutes from the time stamp 
-    var sec = today.getSeconds(); //retrieves the seconds from the stamp
-    ap = (hr < 12) ? "AM" : "PM";
-    hr = (hr == 0) ? 12 : hr;
-    hr = (hr > 12) ? hr - 12 : hr;
+const convertToTwelve = document.querySelector('.twelveButton'); //Selector for 12Hr Button
+const convertToTwentyFour = document.querySelector('.twenty-fourButton'); //Selector for 24Hr Button
+convertToTwelve.addEventListener('click', convertHourDefault);  //Listens for the selection and then displays what is needed when the selection has been made
+convertToTwentyFour.addEventListener('click', convertHourToMilitary); //Listens for the selection and then displays what is needed when the selection has been made
 
-    hr = checkTime(hr);
-    min = checkTime(min);
-    sec = checkTime(sec);
-    document.getElementById("clock").innerHTML = hr + ":" + min + ":" + sec + " " + ap; //formats the way the time is displayed
 
-    //displays the months and days by name.
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; //Abbreviated the days, so when the current day hits, it shortens it down
-    //provides the current day, month, and year.
-    var curWeekDay = days[today.getDay()];
-    var curDay = today.getDate(); // retrieves what day it is
-    var curMonth = months[today.getMonth()]; // retrieves the month it is
-    var curYear = today.getFullYear(); // retrieves the year it is
-    var date = curWeekDay+", "+curMonth+" "+curDay+" "+curYear; // Formats which way the Day, Month, Date, and year shows up.
-    document.getElementById("date").innerHTML = date; //index uses this to pull the date to the main page
-    
-    var time = setTimeout(function(){ startTime() }, 500);
-}
+// Grabs current Date to display //
+  var today = new Date();
+  
+    var date = today.getMonth()+1+'/'+today.getDate()+'/'+today.getFullYear();
 
-    //Add's a zero in front of numbers<10
-function checkTime(i) {
-    if (i < 10) {
-        i = "0" + i;
+  document.getElementById("date").innerHTML = date;
+
+////////////////
+
+let militaryTime = false;
+
+ function convertHourToMilitary() { //function that allows the button to convert to military time
+    if (militaryTime === false) {
+        militaryTime = true;
     }
-    return i;
 }
+function convertHourDefault() { //function that allows the button to convert time back to standard
+    if (militaryTime === true) {
+        militaryTime = false;
+    }
+
+}
+
+setInterval(displayClock, 10); 
+
+function displayClock() { //Displays the time
+
+    let currentTime = new Date();
+    let hoursin24 = currentTime.getHours(); //Displays hours
+    let minutes = currentTime.getMinutes(); //Displays minutes
+    let seconds = currentTime.getSeconds(); //Displays seconds
+    let amOrPm = '';
+
+    if (hoursin24 < 12) {
+        amOrPm = 'AM'; //Determines if its AM or PM
+    }
+    else{
+        amOrPm = 'PM'; //If not am, then displays PM
+    }
+  
+    if (hoursin24 > 12 & militaryTime === false) {
+        hoursin24 = (24 - hoursin24) - 12;
+    }
+
+    hoursin12 = Math.abs(hoursin24);
+    if (hoursin12 < 10) {
+        hoursin12 = '0' + hoursin12; //Shows hours, 0  determines the 2nd value if its before
+    }
+    if (minutes < 10) {
+        minutes = '0' + minutes;  //Shows minutes, 0 determines the 2nd value if its before 10
+    }
+    if (seconds < 10) {
+        seconds = '0' + seconds; //Shows seconds, 0 determines the 2nd value if its before 10
+    }
+
+    let timeNow = hoursin12 + ':' + minutes + ':' + seconds + amOrPm; //Format in which time is shown on the webpage
+    
+    clock.innerHTML = timeNow;
+    
+}
+
+displayClock();
